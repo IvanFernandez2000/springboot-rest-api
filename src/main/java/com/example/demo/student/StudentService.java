@@ -30,4 +30,15 @@ public class StudentService {
         studentRepository.save(student);
         System.out.println(student);
     }
+
+    public void deleteStudentByID(long id) {
+        Optional<Student> studentById = studentRepository.findById(id);
+
+        if (studentById.isPresent()) {
+            studentRepository.delete(studentById.get()); // pasamos el Student, no el Optional
+        } else {
+            throw new IllegalStateException("Student with id " + id + " does not exist");
+        }
+    }
+
 }
