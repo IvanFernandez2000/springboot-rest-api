@@ -1,5 +1,6 @@
 package com.example.demo.student;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,4 +42,19 @@ public class StudentService {
         }
     }
 
+
+    @Transactional
+    public void updateStudent(long id, Student req) {
+        // 1) Traer la entidad administrada por el contexto de persistencia
+        Student student = studentRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Student " + id + " no existe"));
+
+        // 2) Mutar solo lo que venga en el request (PUT = reemplazo completo, PATCH = parcial)
+        if (req.getName() != null && !req.getName().isBlank()) {
+            student.setNome(req.getName());
+        }
+        if (req.getEmails() != null && !req.getEmails().isBlank()) {
+            student.setEmails(req.getEmails());
+        }
+    }
 }

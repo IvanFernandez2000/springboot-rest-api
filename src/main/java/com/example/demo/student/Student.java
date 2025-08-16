@@ -49,7 +49,7 @@ public class Student {
         return id;
     }
 
-    public String getNome() {
+    public String getName() {
         return name;
     }
 
